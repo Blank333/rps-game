@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title>Rock, Paper, Scissor</title>
+
+    </head>
+    <body>
+        <script>
+            let rock = /^rock$/i;
+            let paper = /^paper$/i;
+            let scissor = /^scissor$/i;
+
+            let compPlay = () => {
+                let choice = Math.random();
+
+                if(choice == 0) {
+                    return compPlay;
+                } else if(choice <= 0.33) {
+                    return "Rock";
+                } else if(choice <= 0.66) {
+                    return "Paper";
+                } else if(choice <= 0.99) {
+                    return "Scissor";
+                } else {
+                    return compPlay();
+                }
+            };
+
+            let count = (times) => {
+                let rockT = paperT = scissorT = misc = 0;
+                for(let i=0; i<=times; ++i){
+                    let choice = compPlay();
+                    if(choice == "Rock"){
+                        rockT++;
+                    } else if(choice == "Paper") {
+                        paperT++;
+                    } else if(choice == "Scissor") {
+                        scissorT++;
+                    } else {
+                        misc++;
+                    }
+                }
+                console.log(`Rock = ${rockT}\nPaper = ${paperT}\nScissor = ${scissorT}\nMisc: ${misc}`);
+                
+            };
+            
+            let play = (playerSelection, compSelection = compPlay()) => {
+                if (playerSelection.toUpperCase() == compSelection.toUpperCase()){
+                    return `Draw! ${playerSelection} and ${compSelection}`;
+                } 
+
+                //Rock - Paper/Scissor
+                //Paper - Rock/Scissor
+                //Scissor - Rock/Paper
+                
+                switch(true){
+                    case ((rock.test(playerSelection)) && (scissor.test(compSelection))): 
+                    case((paper.test(playerSelection)) && (rock.test(compSelection))): 
+                    case((scissor.test(playerSelection)) && (paper.test(compSelection))):
+                    return `You win! ${playerSelection} beats ${compSelection}`;
+                    break;
+                    
+                    case ((rock.test(playerSelection)) && (paper.test(compSelection))): 
+                    case((paper.test(playerSelection)) && (scissor.test(compSelection))): 
+                    case((scissor. test(playerSelection)) && (rock.test(compSelection))): 
+                    return `You lose! ${compSelection} beats ${playerSelection}`;
+                    break;
+
+                    default: 
+                    return `${playerSelection} is Invalid`;
+                }
+            };
+
+            let game = (rounds) => {
+                for(let i=1; i <= rounds; ++i) {
+                    let playerSelection = prompt("Enter your choice:\nRock, Paper, Scissor?");
+                    console.log(play(playerSelection));
+                }
+            };
+
+            let start = () => {
+                let rounds = prompt("How many rounds do you want to play?", 0);
+                game(rounds);
+            };
+
+        </script>
+            
+    </body>
+</html>
