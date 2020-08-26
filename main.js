@@ -39,11 +39,8 @@ let count = (times) => {
 
 let play = (playerSelection, compSelection = compPlay()) => {
     
-    let score = document.querySelectorAll('.score');
     if (playerSelection.toUpperCase() == compSelection.toUpperCase()){
-        draw++;
-        score[2].textContent = `Draws: ${draw}`;
-        return `Draw! ${playerSelection} and ${compSelection}`;
+        return game("Draw", playerSelection, compSelection);
     } 
 
     //Rock - Paper/Scissor
@@ -54,19 +51,14 @@ let play = (playerSelection, compSelection = compPlay()) => {
         case ((rock.test(playerSelection)) && (scissor.test(compSelection))): 
         case((paper.test(playerSelection)) && (rock.test(compSelection))): 
         case((scissor.test(playerSelection)) && (paper.test(compSelection))):
-        wins++;
-        score[0].textContent = `Wins: ${wins}`;
-        return `You win! ${playerSelection} beats ${compSelection}`;
-        break;
+        return game("Win", playerSelection, compSelection);
+        
         
         case ((rock.test(playerSelection)) && (paper.test(compSelection))): 
         case((paper.test(playerSelection)) && (scissor.test(compSelection))): 
         case((scissor.test(playerSelection)) && (rock.test(compSelection))): 
-        loses++;
-        score[1].textContent = `Loses: ${loses}`;
-        return `You lose! ${compSelection} beats ${playerSelection}`;
-        break;
-
+        return game("Lose", playerSelection, compSelection);
+        
         default: 
         return `${playerSelection} is Invalid`;
     }
@@ -77,22 +69,50 @@ let play = (playerSelection, compSelection = compPlay()) => {
 
 };
 
+let game = (gameState, playerSelection, compSelection) => {
+    let score = document.querySelectorAll('.score');
+    
+    if(gameState === "Win"){
+        wins++;
+        score[0].textContent = `Wins: ${wins}`;
+
+        if(wins === 5) {
+            alert("You won the game! Congratulations!");
+            return reset();
+        }
+        
+        return `You win! ${playerSelection} beats ${compSelection}`;
+    }
+    else if(gameState === "Lose") {
+        loses++;
+        score[1].textContent = `Loses: ${loses}`;
+
+        if(loses === 5) {
+            alert("You lost the game! Try again!");
+            return reset();
+        }
+        return `You lost! ${compSelection} beats ${playerSelection}`;
+    } else if(gameState === "Draw") {
+        draw++;
+        score[2].textContent = `Draws: ${draw}`;
+        return `Draw! ${playerSelection} and ${compSelection}`;
+    }
+};
+
+let reset = () => {
+    const score = document.querySelectorAll('.score');
+    const para = document.querySelector('#info');
+    wins = loses = draw = 0;
+    score[0].textContent = `Wins: ${wins}`;
+    score[2].textContent = `Draws: ${draw}`;
+    score[1].textContent = `Loses: ${loses}`;
+    para.innerHTML = `You: <br>Computer: <br>`;
+    return 'Pick your choice to begin.';
+}
 let output = (playerSelection, compSelection= compPlay()) => {
     const para = document.querySelector('#info');
     para.innerHTML= `You: ${playerSelection} <br>Computer: ${compSelection}<br>${play(playerSelection, compSelection)}`;
 };
-let game = (rounds, playerSelection) => {
-    for(let i=1; i <= rounds; ++i) {
-        //let playerSelection = prompt("Enter your choice:\nRock, Paper, Scissor?");
-        console.log(play(playerSelection));
-    }
-};
-
-let start = () => {
-    let rounds = prompt("How many rounds do you want to play?", 0);
-    game(rounds);
-};
-
 
 const buttons = document.querySelectorAll('.button');
 

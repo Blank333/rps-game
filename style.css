@@ -7,12 +7,15 @@
 
 #wins {
     grid-area: wins;
+    justify-self: center;
 }
 #loses {
     grid-area: loses;
+    justify-self: center;
 }
 #draw{
     grid-area: draw;
+    justify-self: center;
 }
 #info{
     grid-area: info;
