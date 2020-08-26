@@ -1,0 +1,28 @@
+#output{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "wins loses draw" "info info info";
+}
+
+#wins {
+    grid-area: wins;
+}
+#loses {
+    grid-area: loses;
+}
+#draw{
+    grid-area: draw;
+}
+#info{
+    grid-area: info;
+    justify-self: center;
+}
+
+#buttons {
+    display:grid;
+    grid-template-columns: repeat(3, minmax(16vw, 20vw));
+    justify-content: center;
+    grid-gap: 0px 22px;
+
+}
